@@ -1,0 +1,13 @@
+<?php
+        class controllers {
+          public $ctrl = null;
+          use libs;
+          use security;
+          use tplerror;
+          function __construct($param=array()){
+            // $this->ctrl =new session();
+            // $this->setdbconfig();
+            echo "Load Controllers";
+          }
+        }
+      ?>

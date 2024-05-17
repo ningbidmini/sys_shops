@@ -1,0 +1,11 @@
+<?php
+        class views {
+          use libs;
+          use tplerror;
+          use devviews;
+          function __construct($param=array()){
+            // $this->setdbconfig();
+            echo "Load Views";
+          }
+        }
+      ?>
