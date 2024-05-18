@@ -4,33 +4,39 @@
  */
 class syscontrols {
   private $path = './tmp/';
+  private $path_routes = './resources/';
+  private $models = null;
+  private $ctrl = null;
+  private $vw = null;
+  private $routes = array();
   function __construct($param=array()){
     // var_dump($_SESSION);
-    echo count($_SESSION);
+    // echo count($_SESSION);
     if(count($_SESSION)==0){
       if(!isset($_SESSION['libs'])){
         $status=$this->loadlibs();
         if($status['status']==true){
           // header('location: ./');
-          $this->loadtrait();
-          $status_models = $this->loadsession_models();
-          if($status_models['status']==true){
-            $status_controllers = $this->loadsession_controllers();
-            if($status_controllers['status']==true){
-              $status_views = $this->loadsession_views();
-              if($status_views['status']==true){
-                header('location: ./');
-              }
-            }
-          }
+          // $this->loadtrait();
+          // $status_models = $this->setmodels();
+          // var_dump($status_models);
+          // if($status_models['status']==true){
+          //   $status_controllers = $this->loadsession_controllers();
+          //   if($status_controllers['status']==true){
+          //     $status_views = $this->loadsession_views();
+          //     if($status_views['status']==true){
+          //       header('location: ./');
+          //     }
+          //   }
+          // }
         }
       }
     }else{
       if(count($_SESSION['libs'])>0){
-        echo "load success";
-        // $this->loadtrait();
-        // $this->test();
-        // var_dump($_SESSION['libs']['views']);
+        // echo "load success";
+        $this->loadtrait();
+        $status_models = $this->setmodels();
+        $this->routes();
       }
     }
     // else{
@@ -166,6 +172,49 @@ class syscontrols {
     }else{
       return array('status'=>false,'msg'=>'not load views!!');
     }
+  }
+  private function setmodels($param=array()){
+    $strmodels = '
+      <?php
+        class models {
+          // public $ctrl = null;
+          use libs;
+          use security;
+          use config;
+          use database;
+          use tplerror;
+          function __construct($param=array()){
+            // $this->ctrl =new session();
+            // $this->setdbconfig();
+            echo "Load Models";
+          }
+
+        }
+      ?>
+    ';
+    $setmodelname = "$.models";
+    file_put_contents($this->path.$setmodelname,trim($strmodels));
+    include_once $this->path.$setmodelname;
+    $obj = new models();
+    // $_SESSION['libs']['models']= $obj;
+    $this->models = $obj;
+    if($this->models != null){
+      return array('status'=>true,'msg'=>'load models success!!!');
+    }else{
+      return array('status'=>false,'msg'=>'not load models!!!');
+    }
+  }
+  public function getmodels(){ return $this->models; }
+  public function getcontrollers(){ return $this->ctrl; }
+
+
+  private function routes(){
+    $pathroutes = $this->path_routes.'routes.php';
+    include_once $pathroutes;
+    $routes = new routes();
+    $this->routes = $routes->routes_render();
+    // var_dump($this->routes);
+    $routes->routes_controllers($this->routes);
   }
 }
 

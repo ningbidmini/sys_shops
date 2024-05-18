@@ -1,6 +1,6 @@
 <?php
         class models {
-          public $ctrl = null;
+          // public $ctrl = null;
           use libs;
           use security;
           use config;
