@@ -35,7 +35,7 @@ class syscontrols {
       if(count($_SESSION['libs'])>0){
         // echo "load success";
         $this->loadtrait();
-        $status_models = $this->setmodels();
+        // $status_models = $this->setmodels();
         $this->routes();
       }
     }
@@ -60,6 +60,8 @@ class syscontrols {
       'dbconfig'=>$pathdev.'dev_config.php',
       'tplerror'=>$pathdev.'dev_error.php',
       'devviews'=>$pathdev.'dev_views.php',
+      'tpl_header'=>$pathdev.'dev_header.php',
+      'tpl_script'=>$pathdev.'dev_script.php',
     );
     foreach ($listdev as $key => $value) {
       // array_push($datafilename,)

@@ -104,30 +104,48 @@
         return array('status'=>false,'msg'=>'not create file:=>'.$filename);
       }
     }
+    public function getcert(){
+      $getkey = json_decode(file_get_contents($this->path_cert.'certkey.json'),true);
+      return $getkey['cert'];
+    }
   }
 
   $ren = new renderconfig();
 
   // DB Config
-  $getdb = $ren->gendbconfig(array(
-    'data'=>array(
-      'host'=>'localhost',
-      'uid'=>'root',
-      'pwd'=>'password',
-      'port'=>'3306',
-      'charset'=>'utf8',
-      'category'=>'mysql',
-      'type'=>'pdo',
-      'prop'=>array(
-				\PDO::ATTR_EMULATE_PREPARES => false,
-				\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-				\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
-			),
-    ),
-  ));
+  // $getdb = $ren->gendbconfig(array(
+  //   'data'=>array(
+  //     'host'=>'localhost',
+  //     'uid'=>'root',
+  //     'pwd'=>'password',
+  //     'port'=>'3306',
+  //     'charset'=>'utf8',
+  //     'category'=>'mysql',
+  //     'type'=>'pdo',
+  //     'prop'=>array(
+	// 			\PDO::ATTR_EMULATE_PREPARES => false,
+	// 			\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+	// 			\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
+	// 		),
+  //   ),
+  // ));
+
+
   // var_dump($getdb);
 
   // genKey1
   // $getren = $ren->genkey1(array('data'=>array('email'=>'syberia.hugy@gmail.com','createdate'=>date('Y-m-d H:i:s.u'))));
   // $getren = $ren->genkey1(array('data'=>'ccccc'));
+
+  $strpwd = 'test';
+  $datapwd = base64_encode(json_encode(array('email'=>'tossapol.c@dru.ac.th','pwd'=>base64_encode(json_encode(array('pwd'=>'test'))))));
+  $getcert = $ren->getcert();
+  // var_dump($getcert.','.$datapwd);
+  // var_dump($getcert);
+  $prefix = 'AD';
+  $length = 5;
+  $createdate = '20240527230641'.date('U');
+
+  echo $prefix.$createdate;
+
 ?>

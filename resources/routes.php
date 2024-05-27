@@ -17,6 +17,7 @@
     	else $uri=$req;
     	return(trim(trim($uri,'/'),'?'));
     }
+    function base_url() {return(pathinfo(base_host().$_SERVER['SCRIPT_NAME'])["dirname"]);}
     public function routes_render(){
       // var_dump($this->base_uri());
       $con='home';
@@ -34,7 +35,7 @@
     }
     public function routes_controllers($param){
       $pathcontrollers = $this->path_controllers.$param['controllers'].".php";
-      var_dump($pathcontrollers);
+      // var_dump($pathcontrollers);
       $classname = $param['controllers'];
       $methodname = $param['method'];
       if(file_exists($pathcontrollers)){
@@ -42,7 +43,7 @@
         include_once $pathcontrollers;
         $setobj = new $classname();
         if(method_exists($setobj,$param['method'])){
-          echo "Method True";
+          // echo "Method True";
           $setobj->$methodname($param['param']);
         }
       }else{
